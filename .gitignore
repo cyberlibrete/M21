@@ -1,3 +1,7 @@
 /build
 .vscode
 .vs
+_note.md
+CMakeLists.txt
+task_01_issues.md
+main
