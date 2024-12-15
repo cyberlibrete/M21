@@ -5,3 +5,5 @@ _note.md
 task_01_issues.md
 main
 CMakeLists.txt
+*.exe
+CMakeLists.txt
