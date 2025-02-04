@@ -8,3 +8,5 @@ CMakeLists.txt
 *.exe
 CMakeLists.txt
 /_M21
+*_.cpp
+report.txt
