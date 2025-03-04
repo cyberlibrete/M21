@@ -1,12 +1,4 @@
 /build
 .vscode
 .vs
-_note.md
-task_01_issues.md
-main
-CMakeLists.txt
-*.exe
-CMakeLists.txt
-/_M21
-*_.cpp
-report.txt
+/.notes
