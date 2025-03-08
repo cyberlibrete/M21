@@ -375,6 +375,39 @@ struct room
 
 		return true;
 	}
+
+	bool show()
+	{
+		std::cout << "\t\t\t\t";
+		switch (this->roomType)
+		{
+		case room_type::living :
+			std::cout << "Living room\t";
+			break;
+		
+		case room_type::kitchen :
+			std::cout << "Kitchen\t\t";
+			break;
+		
+		case room_type::childrens :
+			std::cout << "Children's room\t";
+			break;
+		
+		case room_type::bedroom :
+			std::cout << "Bedroom\t\t";
+			break;
+
+		case room_type::bathroom :
+			std::cout << "Bathroom\t\t";
+			break;
+		
+		default:
+			break;
+		}
+
+		std::cout << " (S= " << this->square << ')' << std::endl;
+		return true;
+	}
 };
 
 struct floor
@@ -454,6 +487,18 @@ struct floor
 		return true;
 	}
 	
+	bool show(int _level)
+	{
+		std::cout << "\t\t\tFloor " << _level << " (Ceiling = " << this->ceiling_h << ')' << std::endl;
+
+		int idx = 0;
+		while (idx < rooms.size())
+		{
+			rooms[idx].show();
+			idx++;
+		}
+		return true;
+	}
 };
 
 struct OtherBuilding
@@ -555,7 +600,34 @@ struct OtherBuilding
 			}
 			_term.remove_first();
 		}
+
+		return true;
+	}
+
+	bool show(double _sum_square)
+	{
+		std::cout << "\t\t";
+		switch (this->buildingType)
+		{
+		case building_type::garage :
+			std::cout << "Garage\t";
+			break;
 		
+		case building_type::sauna :
+			std::cout << "Sauna\t";
+			break;
+		
+		case building_type::shed :
+			std::cout << "Shed\t";
+			break;
+		
+		default:
+			break;
+		}
+
+		std::cout	<< "(S=" << this->square << " | "
+					<< (double(this->square * 100) / _sum_square) << "%) "
+					<< (stove ? "[FIREPLACE AND CHIMNEY]" : "") << std::endl;
 		return true;
 	}
 };
@@ -563,7 +635,7 @@ struct OtherBuilding
 struct ResidentialBuilding
 {
 	std::vector<floor> floors;
-	int square;
+	double square;
 	bool stove = true;				// default TRUE
 
 	int get_square_floor(int _level)
@@ -642,6 +714,22 @@ struct ResidentialBuilding
 		
 		return true;
 	}
+
+	bool show(double _sum_square)
+	{
+		std::cout	<< "\t\tRESIDENTIAL HOUSE (S=" << this->square << " | "
+					<< (double(this->square * 100) / _sum_square) << "%) "
+					<< (stove ? "[FIREPLACE AND CHIMNEY]" : "") << std::endl;
+
+		int idx = 0;
+		while (idx < floors.size())
+		{
+			floors[idx].show(idx + 1);
+			idx++;
+		}
+
+		return true;
+	}
 };
 
 struct area
@@ -650,6 +738,23 @@ struct area
 	bool house_on_territory = false;
 	ResidentialBuilding house;
 	std::vector<OtherBuilding> anybuildings;
+
+	double get_square_sum()
+	{
+		double output = 0;
+
+		if (house_on_territory)
+			output += house.get_square_floor(0);
+		
+		int idx = 0;
+		while (idx < anybuildings.size())
+		{
+			output += anybuildings[idx].square;
+			idx++;
+		}
+
+		return  output;
+	}
 
 	bool initial(kernel::terminal& _term, int _area_id = 1)
 	{
@@ -716,11 +821,44 @@ struct area
 
 		return true;
 	}
+
+	bool show(double _sum_square)
+	{
+		std::cout	<< "\tArea No." << this->area_id << std::endl;
+
+		int idx = 0;
+		while (idx < anybuildings.size())
+		{
+			anybuildings[idx].show(_sum_square);
+			idx++;
+		}
+
+		if (house_on_territory)
+		{
+			house.show(_sum_square);
+		}
+
+		return true;	
+	}
 };
 
 struct village
 {
 	std::vector<area> areas;
+
+	double get_sum_square()
+	{
+		double output = 0;
+
+		int idx = 0;
+		while (idx < areas.size())
+		{
+			output += areas[idx].get_square_sum();
+			idx++;
+		}
+
+		return output;
+	}
 
 	// add new areas into village
 	bool initial(kernel::terminal& _term)
@@ -766,6 +904,21 @@ struct village
 			count--;
 		}
 		return true;
+	}
+
+	bool show()
+	{
+		std::cout	<< "--------------------------------------------------" << std::endl
+					<< "VILLAGE STRUCTURE (" << "AREAS: " << areas.size()  << ')' << std::endl;
+		
+		int idx = 0;
+		while (idx < areas.size())
+		{
+			areas[idx].show(this->get_sum_square());
+			idx++;
+		}
+
+		return true;	
 	}
 };
 
@@ -830,6 +983,11 @@ int main ()
 		else if (xterm.current().empty())
 		{
 			xterm.remove_first();
+		}
+		else if (xterm.current() == "show")
+		{
+			xterm.remove_first();
+			CurrentVillage.show();
 		}
 		else
 		{
