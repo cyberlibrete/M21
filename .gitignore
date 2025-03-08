@@ -2,3 +2,6 @@
 .vscode
 .vs
 /.notes
+*.exe
+*.txt
+test*

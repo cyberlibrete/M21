@@ -1,4 +1,4 @@
-![img_m21t01](../src/img_m21t01.PNG)
+![img_21_01](../src/img_21_01.PNG)
 
 Telegram: [cyberlibre](https://t.me/cyberlibrete)
 
