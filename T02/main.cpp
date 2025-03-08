@@ -155,7 +155,7 @@ namespace strform
 		output = 0.0;
 		bool dot = false;
 		format_str(value, str::spc_left | str::spc_right);
-		std::cout << '|' << value << '|' << std::endl;
+		//std::cout << '|' << value << '|' << std::endl;
 		std::string _val_dot;
 		std::string _dot_val;
 		bool minus = false;
@@ -181,7 +181,7 @@ namespace strform
 
 			else
 			{
-				std::cerr << "The value must be a positive double!" << std::endl << std::endl;
+				//std::cerr << "The value must be a positive double!" << std::endl << std::endl;
 				return false;
 			}
 			
@@ -971,7 +971,8 @@ int main ()
 			std::cout	<< "COMMANDS LIST:" << std::endl
 						<< "help\t\t-commands list" << std::endl
 						<< "cls, clear\t-clear terminal" << std::endl
-						<< "add\t\t-initialization of the settlement" << std::endl << std::endl
+						<< "add\t\t-initialization of the settlement" << std::endl
+						<< "show\t\t-show full structure" << std::endl << std::endl
 						<< "exit, stop, q\t- stop programm" << std::endl << std::endl;
 		}
 		else if (xterm.current() == "add")
