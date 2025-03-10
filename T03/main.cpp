@@ -7,12 +7,12 @@ namespace kernel
 {
 	enum str
 	{
-		nothing		= 0x00,
-		spc_left	= 0x01 << 0,
-		spc_right	= 0x01 << 1,
-		spc_into	= 0x01 << 2,
-		all_spcs	= 0b00000111,
-		spec_line	= 0x01 << 4
+		nothing		= 0,
+		spc_left	= 1 << 0,
+		spc_right	= 1 << 1,
+		spc_into	= 1 << 2,
+		all_spcs	= spc_left | spc_into | spc_right,
+		spec_line	= 1 << 4
 
 	};
 
