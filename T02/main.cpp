@@ -3,7 +3,7 @@
 #include <vector>
 
 
-namespace strform
+namespace kernel
 {
 	enum str
 	{
@@ -136,7 +136,7 @@ namespace strform
 		{
 			if (_value[idx] >= '0' && _value[idx] <= '9')
 			{
-				buffer += int(_value[idx] - '0') * strform::dec_power(position);
+				buffer += int(_value[idx] - '0') * kernel::dec_power(position);
 				position++;
 			}
 			else
@@ -199,10 +199,7 @@ namespace strform
 
 		return true;
 	}
-}
 
-namespace kernel
-{
 	struct terminal
 	{
 	private:
@@ -210,11 +207,11 @@ namespace kernel
 		std::vector<std::string> _buffer;
 		
 	public:
-		bool get_line(__int8 _settings = strform::str::all_spcs)
+		bool get_line(__int8 _settings = kernel::str::all_spcs)
 		{
 			std::getline(std::cin, this->__cmd);
-			strform::format_str(this->__cmd, _settings);
-			strform::split_str(this->__cmd, " ", this->_buffer, strform::str::all_spcs);
+			kernel::format_str(this->__cmd, _settings);
+			kernel::split_str(this->__cmd, " ", this->_buffer, kernel::str::all_spcs);
 			/*int idx = 0;
 			while (idx < this->_buffer.size())
 			{
@@ -306,7 +303,7 @@ struct room
 			if (_term.current() == "stop" || _term.current() == "exit")
 				return false;
 
-			else if (strform::get_int(_term.current(), room_type_id) && room_type_id >= 1 && room_type_id <= 5)
+			else if (kernel::get_int(_term.current(), room_type_id) && room_type_id >= 1 && room_type_id <= 5)
 			{
 				_term.remove_first();
 				break;
@@ -317,7 +314,7 @@ struct room
 							<< "The value must be an integer in the range from 1 to 5." << std::endl
 							<< "If you want to stop the program, then enter \"stop\" or \"exit\"." << std::endl << std::endl;
 			}
-			_term.remove_first();
+			_term.clear();
 		} while (true);
 		
 		switch (room_type_id)
@@ -358,7 +355,7 @@ struct room
 			if (_term.current() == "stop" || _term.current() == "exit")
 				return false;
 
-			else if (strform::get_double(_term.current(), this->square) && this->square >= 5 && this->square <= 30)
+			else if (kernel::get_double(_term.current(), this->square) && this->square >= 5 && this->square <= 30)
 			{
 				_term.remove_first();
 				break;
@@ -369,7 +366,7 @@ struct room
 							<< "The value must be a positive decimal or integer. Values in the range from 5 to 30 are allowed." << std::endl
 							<< "If you want to stop the program, then type \"stop\" or \"exit\"." << std::endl << std::endl;
 			}
-			_term.remove_first();
+			_term.clear();
 
 		} while (true);
 
@@ -429,7 +426,7 @@ struct floor
 			if (_term.current() == "stop" || _term.current() == "exit")
 				return false;
 
-			else if (strform::get_double(_term.current(), this->ceiling_h) && this->ceiling_h >= 0.5 && this->ceiling_h <= 10)
+			else if (kernel::get_double(_term.current(), this->ceiling_h) && this->ceiling_h >= 0.5 && this->ceiling_h <= 10)
 			{
 				_term.remove_first();
 				break;
@@ -440,7 +437,7 @@ struct floor
 							<< "The value must be a positive decimal or integer. Values in the range from 0.5 to 10 are allowed." << std::endl
 							<< "If you want to stop the program, then type \"stop\" or \"exit\"." << std::endl << std::endl;
 			}
-			_term.remove_first();
+			_term.clear();
 
 		} while (true);
 		
@@ -458,7 +455,7 @@ struct floor
 			if (_term.current() == "stop" || _term.current() == "exit")
 				return false;
 
-			else if (strform::get_int(_term.current(), count) && count >= 2 && count <= 4)
+			else if (kernel::get_int(_term.current(), count) && count >= 2 && count <= 4)
 			{
 				_term.remove_first();
 				break;
@@ -469,7 +466,7 @@ struct floor
 							<< "The value must be an integer in the range from 2 to 4." << std::endl
 							<< "If you want to stop the program, then enter \"stop\" or \"exit\"." << std::endl << std::endl;
 			}
-			_term.remove_first();
+			_term.clear();
 
 		} while (true);
 		// initial EVERY room
@@ -526,7 +523,7 @@ struct OtherBuilding
 			if (_term.current() == "stop" || _term.current() == "exit")
 				return false;
 
-			else if (strform::get_int(_term.current(), building_type_id) && building_type_id >= 1 && building_type_id <= 3)
+			else if (kernel::get_int(_term.current(), building_type_id) && building_type_id >= 1 && building_type_id <= 3)
 			{
 				_term.remove_first();
 				break;
@@ -537,7 +534,7 @@ struct OtherBuilding
 							<< "The value must be an integer in the range from 1 to 3." << std::endl
 							<< "If you want to stop the program, then enter \"stop\" or \"exit\"." << std::endl << std::endl;
 			}
-			_term.remove_first();
+			_term.clear();
 		} while (true);
 		
 		switch (building_type_id)
@@ -570,7 +567,7 @@ struct OtherBuilding
 			if (_term.current() == "stop" || _term.current() == "exit")
 				return false;
 
-			else if (strform::get_double(_term.current(), this->square) && this->square >= 20 && this->square <= 150)
+			else if (kernel::get_double(_term.current(), this->square) && this->square >= 20 && this->square <= 150)
 			{
 				_term.remove_first();
 				break;
@@ -581,7 +578,7 @@ struct OtherBuilding
 							<< "The value must be a positive decimal or integer. Values in the range from 20 to 150 are allowed." << std::endl
 							<< "If you want to stop the program, then type \"stop\" or \"exit\"." << std::endl << std::endl;
 			}
-			_term.remove_first();
+			_term.clear();
 
 		} while (true);
 
@@ -667,7 +664,7 @@ struct ResidentialBuilding
 			if (_term.current() == "stop" || _term.current() == "exit")
 				return false;
 
-			else if (strform::get_int(_term.current(), count) && count >= 1 && count <= 3)
+			else if (kernel::get_int(_term.current(), count) && count >= 1 && count <= 3)
 			{
 				_term.remove_first();
 				break;
@@ -678,11 +675,10 @@ struct ResidentialBuilding
 							<< "The value must be an integer in the range from 1 to 3." << std::endl
 							<< "If you want to stop the program, then enter \"stop\" or \"exit\"." << std::endl << std::endl;
 			}
-			_term.remove_first();
+			_term.clear();
 
 		} while (true);
 		
-		_term.remove_first();
 		
 		// initial EVERY floor
 		while (count > 0)
@@ -791,7 +787,7 @@ struct area
 			if (_term.current() == "stop" || _term.current() == "exit")
 				return false;
 			
-			else if (strform::get_int(_term.current(), count) && count >= 0)
+			else if (kernel::get_int(_term.current(), count) && count >= 0)
 			{
 				_term.remove_first();
 				break;
@@ -802,11 +798,10 @@ struct area
 							<< "The value must be integer and positive. The value 0 is taken as the absence of initialization elements." << std::endl
 							<< "If you want to stop the program, then type \"stop\" or \"exit\"." << std::endl << std::endl;
 			}
-			_term.remove_first();
+			_term.clear();
 
 		} while (true);
 
-		_term.remove_first();
 		
 		// initial every building
 		while (count > 0)
@@ -876,7 +871,7 @@ struct village
 			if (_term.current() == "stop" || _term.current() == "exit")
 				return false;
 			
-			else if (strform::get_int(_term.current(), count) && count >= 1)
+			else if (kernel::get_int(_term.current(), count) && count >= 1)
 			{
 				_term.remove_first();
 				break;
@@ -887,10 +882,10 @@ struct village
 							<< "The value must be integer and positive. Initialize at least one section, to do this, enter the number 1." << std::endl
 							<< "If you want to stop the program, then enter \"stop\" or \"exit\"." << std::endl << std::endl;
 			}
-			_term.remove_first();
+			_term.clear();
 
 		} while (true);
-		_term.remove_first();
+
 
 		// intial EVERY area
 		while (count > 0)
