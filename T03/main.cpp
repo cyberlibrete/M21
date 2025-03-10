@@ -298,7 +298,7 @@ struct math_vector
 							<< "The value must be a positive decimal or integer." << std::endl
 							<< "If you want to stop the program, then type \"stop\" or \"exit\"." << std::endl << std::endl;
 			}
-			_term.remove_first();
+			_term.clear();
 
 		} while (true);
 
@@ -325,7 +325,7 @@ struct math_vector
 							<< "The value must be a positive decimal or integer." << std::endl
 							<< "If you want to stop the program, then type \"stop\" or \"exit\"." << std::endl << std::endl;
 			}
-			_term.remove_first();
+			_term.clear();
 
 		} while (true);
 		
@@ -402,7 +402,7 @@ namespace m_vect
 							<< "The value must be a positive decimal or integer." << std::endl
 							<< "If you want to stop the program, then type \"stop\" or \"exit\"." << std::endl << std::endl;
 			}
-			_term.remove_first();
+			_term.clear();
 
 		} while (true);
 
@@ -436,6 +436,13 @@ namespace m_vect
 
 		std::cout << "[vector]" << std::endl;
 		_vect.initial(_term);
+
+		if (_vect.length() == 0)
+		{
+			std::cerr	<< "An attempt to divide by 0" << std::endl
+						<< "A vector with a length of 0" << std::endl << std::endl;
+			return false;
+		}
 
 		_vect_norm.x_value = _vect.x_value / _vect.length();
 		_vect_norm.y_value = _vect.y_value / _vect.length();
