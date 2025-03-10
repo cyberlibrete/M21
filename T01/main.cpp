@@ -3,22 +3,12 @@
 #include <string>
 #include <vector>
 
-#define TEST
-
 struct record
 {
 	std::string		name;
 	std::string		surname;
 	std::string		paymantDate;
 	std::string		amount;
-
-	record(){};
-	record(const char* _name, const char* _surname, const char* _paymantDate, int _amount)
-	{
-		this->name = _name;
-		this->surname = _surname;
-		this->paymantDate = _paymantDate;
-	}
 
 	bool set_data()
 	{
@@ -39,7 +29,11 @@ struct record
 		do {
 			std::cout << "Amount: ";
 			std::cin >> this->amount;
-		} while (!is_integer(this->amount));
+
+			if (!is_integer(this->amount))
+				std::cerr << "! Incorrect value !" << std::endl;
+
+		} while (true);
 		
 		return true;
 	}
@@ -153,20 +147,14 @@ protected:
 		int output = 0;
 		int idx = _value.length() - 1;
 
-		__int8 _dec = 0;
 		while (idx >= 0)
 		{
-			if (_value[idx] >= '0' && _value[idx] <= '9')
-			{
-				output += int(_value[idx] - '0') * DEC_POWER(_dec);
-				_dec++;
-			}
+			if (_value[idx] < '0' || _value[idx] > '9')
+				return false;
+
+			output += int(_value[idx] - '0') * DEC_POWER(_value.length() - idx);
+
 			idx--;
-		}
-		if (_dec == 0x00)
-		{
-			std::cerr << "! Invalid value" << std::endl << std::endl;
-			return false;
 		}
 		
 		return true;
@@ -203,11 +191,8 @@ public:
 		{
 			this->_journal.clear();
 			record CurrentRecord;
-			while (!file.eof())
+			while (file >> CurrentRecord.name >> CurrentRecord.surname >> CurrentRecord.paymantDate >> CurrentRecord.amount)
 			{
-				file >> CurrentRecord.name >> CurrentRecord.surname >> CurrentRecord.paymantDate >> CurrentRecord.amount;
-				if (CurrentRecord.name.empty())
-					break;
 				this->_journal.push_back(CurrentRecord);
 				CurrentRecord.clear();
 			}
@@ -313,7 +298,6 @@ int main ()
 		{
 			std::cerr << "Command \"" << _cmd << "\" not found\nTry command \"help\" to print available commands for this program" << std::endl << std::endl;
 		}
-		//_cmd.clear();
 	}
 	
 }
